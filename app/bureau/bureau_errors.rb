@@ -14,10 +14,22 @@ module Bureau
       raise(self, "structure must be an array")
     end
 
-    def self.sections_must_be_hashes(not_a_hash)
-      not_a_hash = not_a_hash.to_s
+    def self.bad_section(non_hash_section)
+      non_hash_section = non_hash_section.to_s
+      raise(self,
+        "structures can only contain hashes (one for each table section) (#{non_hash_section}.class != Hash)")
+    end
+
+    def self.bad_drawer_list(non_array_drawer_list)
+      non_array_drawer_list = non_array_drawer_list.to_s
+      raise(self,
+        "hashes inside structure must define :drawers as an array (each element representing a menu row) if it is present (#{non_array_drawer_list}.class != Array)")
+    end
+
+    def self.bad_drawer(non_hash_drawer)
+      non_hash_drawer = non_hash_drawer.to_s
       raise(self, 
-        "structures can only contain hashes (one for each table section) (#{not_a_hash}.class != Hash)")
+        "all elements of section[:drawers] must be a hash (each element representing a menu row) (#{non_hash_drawer}.class != Hash)")
     end
   end
 end
