@@ -1,46 +1,58 @@
 module Bureau
   class Bureau < UIViewController
-    attr_accessor :table
+    attr_accessor :table, :structure
 
     def init
       InitializationError.need_hash
     end
 
     def initialize(format)
-      unless format.has_key? :structure
+      if format.has_key? :structure
+        StructureValidator.instance.validate(format[:structure])
+        @structure = format[:structure]
+      else
         InitializationError.need_structure_key
       end
+      setup_table
+    end
 
-      # test - structure is an array
-      if format[:structure].class != Array
-        StructureError.structure_must_be_array
+    # private
+    #   dont think these can be private
+    def numberOfSectionsInTableView(_)
+      @structure.count
+    end
+
+    def tableView(_, numberOfRowsInSection:section)
+      if @structure[section].has_key? :drawers
+        @structure[section][:drawers].count
+      else
+        0
       end
+    end
 
-      # test - each section is a hash
-      format[:structure].each do |section|
-        if section.class != Hash
-          StructureError.bad_section(section)
+    def tableView(_, titleForHeaderInSection:section)
+      if @structure[section].has_key? :title
+        @structure[section][:title]
+      else
+        ''
+      end
+    end
+
+    def tableView(_, cellForRowAtIndexPath:index_path)
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle,
+                                          reuseIdentifier: BureauCell)
+      row = @structure[index_path.section][:drawers][index_path.row]
+      cell.textLabel.text = row[:title] || ''
+      cell.detailTextLabel.text = row[:subtitle] || ''
+      cell.imageView.image = row[:icon]
+      if row.has_key? :accessory
+        if row[:accessory].class == UIView
+          cell.accessoryView = row[:accessory]
         else
-
-          # test - :drawers is an array
-          drawer_list = section[:drawers]
-          unless drawer_list.nil?
-            if drawer_list.class != Array
-              StructureError.bad_drawer_list(drawer_list)
-            else
-
-              # test - each drawer is a hash
-              drawer_list.each do |drawer|
-                if drawer.class != Hash
-                  StructureError.bad_drawer(drawer)
-                end
-              end
-            end
-          end
+          cell.accessoryType = row[:accessory]
         end
       end
-
-      setup_table
+      cell
     end
 
     private
@@ -51,18 +63,7 @@ module Bureau
       @table.dataSource = self
       view.addSubview(@table)
     end
-
-    def tableView(_, numberOfRowsInSection:_)
-      0
-    end
-
-    def tableView(_, cellForRowAtIndexPath:_)
-      UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault,
-                                          reuseIdentifier: BureauCell)
-    end
   end
-end
 
-module Bureau
   class BureauCell; end
 end

@@ -4,7 +4,7 @@ describe "A Bureau Being Instantiated" do
     exception.message.should == "Bureau.new({}) requires a hash on initialization"
   end
 
-  it "shows a descriptive error if the hash given to #new doesn't have a :structure key" do
+  it "errors if the hash given to #new doesn't have a :structure key" do
     exception = lambda{ Bureau::Bureau.new({}) }.should.raise(Bureau::InitializationError)
     exception.message.should == "Bureau.new({})'s initialization hash requires a :structure key"
   end

@@ -23,13 +23,13 @@ module Bureau
     def self.bad_drawer_list(non_array_drawer_list)
       non_array_drawer_list = non_array_drawer_list.to_s
       raise(self,
-        "hashes inside structure must define :drawers as an array (each element representing a menu row) if it is present (#{non_array_drawer_list}.class != Array)")
+        "a section's :drawers key must have an array value if it is present (#{non_array_drawer_list}.class != Array)")
     end
 
     def self.bad_drawer(non_hash_drawer)
       non_hash_drawer = non_hash_drawer.to_s
       raise(self, 
-        "all elements of section[:drawers] must be a hash (each element representing a menu row) (#{non_hash_drawer}.class != Hash)")
+        "all elements of section[:drawers] must be a hash (each representing a menu row) (#{non_hash_drawer}.class != Hash)")
     end
   end
 end
