@@ -14,21 +14,29 @@ module Bureau
       InitializationError.need_hash
     end
 
-    def initialize(format)
-      if format.has_key? :structure
-        StructureValidator.instance.validate(format[:structure])
-        @structure = format[:structure]
-      else
-        InitializationError.need_structure_key
-      end
-      @state = format[:state] || DefaultState
-      @drawer_height = format[:drawer_height] || DefaultDrawerHeight
-      @slide_width = format[:slide_width] || DefaultSlideWidth
-      @slide_duration = format[:slide_duration] || DefaultSlideDuration
+    def initialize(options)
+      validate_and_save(options[:structure])
+      save_options(options)
       setup_table
     end
 
     private
+    def validate_and_save(structure)
+      if structure
+        StructureValidator.instance.validate(structure)
+        @structure = structure
+      else
+        InitializationError.need_structure_key
+      end
+    end
+
+    def save_options(options)
+      @state = options[:state] || DefaultState
+      @drawer_height = options[:drawer_height] || DefaultDrawerHeight
+      @slide_width = options[:slide_width] || DefaultSlideWidth
+      @slide_duration = options[:slide_duration] || DefaultSlideDuration
+    end
+
     def setup_table
       @table = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
                                                 style:UITableViewStylePlain)
