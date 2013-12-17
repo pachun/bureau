@@ -11,6 +11,8 @@ end
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'bureau'
+
+  app.files_dependencies 'app/bureau/bureau.rb' => 'app/bureau/bureau_menu.rb'
 end
 
 # This is intended to change to ordering of displayed
