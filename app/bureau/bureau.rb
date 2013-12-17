@@ -20,7 +20,22 @@ module Bureau
       setup_table
     end
 
+    def open_drawer
+      open = all_drawers.select{ |d| d[:open] == true }.first
+      if open.nil?
+        open = all_drawers.select{ |d| d.has_key?(:controller) }.first
+        open[:open] = true
+      end
+      open
+    end
+
     private
+    def all_drawers
+      @structure.inject([]) do |list, section|
+        section.has_key?(:drawers) ? list + section[:drawers] : list
+      end
+    end
+
     def validate_and_save(structure)
       if structure
         StructureValidator.instance.validate(structure)
