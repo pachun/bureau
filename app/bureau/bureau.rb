@@ -1,14 +1,28 @@
-module Bureau
+StatusBarHeight = 20
 
+module Bureau
   DefaultState = :closed
   DefaultDrawerHeight = 50
   DefaultSlideWidth = 300
   DefaultSlideDuration = 0.3
 
-  module Frames
-    def self.under_status_bar
+  module Frame
+    def self.menu
       screen = UIScreen.mainScreen.bounds.size
-      CGRectMake(0, 20, screen.width, screen.height)
+      CGRectMake(0, StatusBarHeight, screen.width, screen.height-StatusBarHeight)
+    end
+
+    def self.for_state(state, sliding:width)
+      if state == :open
+        open(width)
+      else
+        UIScreen.mainScreen.bounds
+      end
+    end
+
+    def self.open(width)
+      screen = UIScreen.mainScreen.bounds.size
+      CGRectMake(width, 0, screen.width, screen.height)
     end
   end
 
@@ -30,7 +44,9 @@ module Bureau
       open = open_drawer
       unless open.nil?
         addChildViewController(open[:controller])
-        view.addSubview(open[:controller].view)
+        drawer_view = open[:controller].view
+        drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
+        view.addSubview(drawer_view)
       end
       setup_table
     end
@@ -71,7 +87,7 @@ module Bureau
     def setup_table
       @table = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
                                                 style:UITableViewStylePlain)
-      @table.frame = Frames::under_status_bar
+      @table.frame = Frame::menu
       @table.delegate = self
       @table.dataSource = self
       view.addSubview(@table)

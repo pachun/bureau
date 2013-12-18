@@ -46,4 +46,15 @@ describe "A Bureau Managing It's Drawers" do
       Bureau::Bureau.new(structure:@structure)
     end.should.not.raise StandardError
   end
+
+  it "initializes the open drawers view frame based on the menu state (open or closed)" do
+    screen = UIScreen.mainScreen.bounds
+
+    open_bureau = Bureau::Bureau.new(structure:@structure, state: :open)
+    open_state_frame = CGRectMake(open_bureau.slide_width, 0, screen.size.width, screen.size.height)
+    open_bureau.open_drawer[:controller].view.frame.should == open_state_frame
+
+    closed_bureau = Bureau::Bureau.new(structure:@structure, state: :closed)
+    closed_bureau.open_drawer[:controller].view.frame.should == screen
+  end
 end
