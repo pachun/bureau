@@ -18,15 +18,15 @@ module Bureau
     def initialize(options)
       validate_and_save(options[:structure])
       save_options(options)
-
-      open = open_drawer
-      unless open.nil?
-        addChildViewController(open[:controller])
-        drawer_view = open[:controller].view
-        drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
-        view.addSubview(drawer_view)
-      end
+      open(open_drawer) unless open_drawer.nil?
       setup_table
+    end
+
+    def open(drawer)
+      addChildViewController(drawer[:controller])
+      drawer_view = drawer[:controller].view
+      drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
+      view.addSubview(drawer_view)
     end
 
     def open_drawer
