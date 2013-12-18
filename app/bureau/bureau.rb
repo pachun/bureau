@@ -6,26 +6,6 @@ module Bureau
   DefaultSlideWidth = 300
   DefaultSlideDuration = 0.3
 
-  module Frame
-    def self.menu
-      screen = UIScreen.mainScreen.bounds.size
-      CGRectMake(0, StatusBarHeight, screen.width, screen.height-StatusBarHeight)
-    end
-
-    def self.for_state(state, sliding:width)
-      if state == :open
-        open(width)
-      else
-        UIScreen.mainScreen.bounds
-      end
-    end
-
-    def self.open(width)
-      screen = UIScreen.mainScreen.bounds.size
-      CGRectMake(width, 0, screen.width, screen.height)
-    end
-  end
-
   class Bureau < UIViewController
     include Menu
     attr_accessor :table, :structure,
@@ -36,8 +16,6 @@ module Bureau
     end
 
     def initialize(options)
-      @status_bar_bg = UIView.alloc.initWithFrame(CGRectMake(0,0,320,20))
-      view.addSubview(@status_bar_bg)
       validate_and_save(options[:structure])
       save_options(options)
 
@@ -81,7 +59,13 @@ module Bureau
       @drawer_height = options[:drawer_height] || DefaultDrawerHeight
       @slide_width = options[:slide_width] || DefaultSlideWidth
       @slide_duration = options[:slide_duration] || DefaultSlideDuration
-      @status_bar_bg.backgroundColor = options[:status_bar_color] || UIColor.whiteColor
+      setup_status_bar(options[:status_bar_color] || UIColor.whiteColor)
+    end
+
+    def setup_status_bar(bg_color)
+      @status_bar_bg = UIView.alloc.initWithFrame(CGRectMake(0,0,320,20))
+      @status_bar_bg.backgroundColor = bg_color
+      view.addSubview(@status_bar_bg)
     end
 
     def setup_table
