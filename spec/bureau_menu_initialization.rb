@@ -7,8 +7,14 @@ describe "A Bureau Instance Initializing its Menu" do
     @bureau.table.class.should == UITableView
   end
 
-  it "sets the table's dimensions to fullscreen" do
-    @bureau.table.frame.should == UIScreen.mainScreen.bounds
+  it "fullscreens the table under the status bar" do
+    table_frame = @bureau.table.frame
+    table_frame.origin.x.should == 0
+    table_frame.origin.y.should == 20
+
+    screen = UIScreen.mainScreen.bounds.size
+    table_frame.size.width.should == screen.width
+    table_frame.size.height.should == screen.height
   end
 
   it "sets the table's delegate to itself" do
