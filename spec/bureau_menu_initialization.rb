@@ -10,11 +10,11 @@ describe "A Bureau Instance Initializing its Menu" do
   it "fullscreens the table under the status bar" do
     table_frame = @bureau.table.frame
     table_frame.origin.x.should == 0
-    table_frame.origin.y.should == 20
+    table_frame.origin.y.should == StatusBarHeight
 
     screen = UIScreen.mainScreen.bounds.size
     table_frame.size.width.should == screen.width
-    table_frame.size.height.should == screen.height
+    table_frame.size.height.should == screen.height - StatusBarHeight
   end
 
   it "sets the table's delegate to itself" do
