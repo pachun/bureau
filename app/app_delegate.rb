@@ -26,6 +26,8 @@ class AppDelegate
           {
             title: "Drawer 2-1",
             subtitle: "Hey 3",
+            target: self,
+            action: :say_hello,
           },
           {
             title: "Drawer 2-2",
@@ -39,6 +41,10 @@ class AppDelegate
     @window.rootViewController = Bureau::Bureau.new(structure:structure, state: :open)
     @window.makeKeyAndVisible
     true
+  end
+
+  def say_hello
+    UIAlertView.alloc.initWithTitle("Hi", message:'', delegate:self,cancelButtonTitle:"OK",otherButtonTitles:nil).show
   end
 end
 
