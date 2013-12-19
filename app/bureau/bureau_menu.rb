@@ -23,17 +23,33 @@ module Bureau
     def tableView(_, cellForRowAtIndexPath:index_path)
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle,
                                           reuseIdentifier: Cell)
-      row = @structure[index_path.section][:drawers][index_path.row]
-      decorate(cell, content:row)
+      drawer = @structure[index_path.section][:drawers][index_path.row]
+      decorate(cell, content:drawer)
       cell
     end
 
+    def tableView(_, didSelectRowAtIndexPath:index_path)
+      section = index_path.section
+      drawer_position = index_path.row
+      tapped_drawer = @structure[section][:drawers][drawer_position]
+      tapped(tapped_drawer)
+    end
+
     private
-    def decorate(cell, content:row)
-      cell.textLabel.text = row[:title] || ''
-      cell.detailTextLabel.text = row[:subtitle] || ''
-      cell.imageView.image = row[:icon]
-      set(cell, accessory:row[:accessory]) if row.has_key?(:accessory)
+    def tapped(tapped_drawer)
+      if tapped_drawer.has_key?(:controller)
+        close_open_drawer
+        open(tapped_drawer)
+      elsif tapped_drawer.has_key?(:target)
+        tapped_drawer[:target].send(tapped_drawer[:action])
+      end
+    end
+
+    def decorate(cell, content:drawer)
+      cell.textLabel.text = drawer[:title] || ''
+      cell.detailTextLabel.text = drawer[:subtitle] || ''
+      cell.imageView.image = drawer[:icon]
+      set(cell, accessory:drawer[:accessory]) if drawer.has_key?(:accessory)
     end
 
     def set(cell, accessory:accessory)

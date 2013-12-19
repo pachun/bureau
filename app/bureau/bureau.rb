@@ -22,13 +22,6 @@ module Bureau
       setup_table
     end
 
-    def open(drawer)
-      addChildViewController(drawer[:controller])
-      drawer_view = drawer[:controller].view
-      drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
-      view.addSubview(drawer_view)
-    end
-
     def open_drawer
       open = all_drawers.select{ |d| d[:open] == true }.first
       if open.nil?
@@ -39,6 +32,21 @@ module Bureau
     end
 
     private
+    def open(drawer)
+      drawer[:open] = true
+      addChildViewController(drawer[:controller])
+      drawer_view = drawer[:controller].view
+      drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
+      view.addSubview(drawer_view)
+    end
+
+    def close_open_drawer
+      last_open = open_drawer
+      last_open[:open] = false
+      last_open[:controller].removeFromParentViewController
+      last_open[:controller].view.removeFromSuperview
+    end
+
     def all_drawers
       @structure.inject([]) do |list, section|
         section.has_key?(:drawers) ? list + section[:drawers] : list
