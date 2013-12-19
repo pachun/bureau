@@ -12,6 +12,10 @@ module Bureau
       end
     end
 
+    def tableView(_, heightForHeaderInSection:section)
+      @header_height
+    end
+
     def tableView(_, titleForHeaderInSection:section)
       if @structure[section].has_key? :title
         @structure[section][:title]
@@ -20,12 +24,25 @@ module Bureau
       end
     end
 
+    def tableView(_, viewForHeaderInSection:section)
+      if @structure[section].has_key?(:title)
+        nil
+      else
+        customize_header_in_section(section)
+      end
+    end
+
     def tableView(_, cellForRowAtIndexPath:index_path)
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle,
                                           reuseIdentifier: Cell)
       drawer = @structure[index_path.section][:drawers][index_path.row]
       decorate(cell, content:drawer)
+      customize(cell, in_section:index_path.section, row:index_path.row)
       cell
+    end
+
+    def tableView(_, heightForRowAtIndexPath:_)
+      @drawer_height
     end
 
     def tableView(_, didSelectRowAtIndexPath:index_path)
@@ -33,6 +50,16 @@ module Bureau
       drawer_position = index_path.row
       tapped_drawer = @structure[section][:drawers][drawer_position]
       tapped(tapped_drawer)
+    end
+
+    def customize(cell, in_section:_, row:_)
+      cell
+    end
+
+    def customize_header_in_section(section)
+      view = UIView.alloc.initWithFrame(CGRectMake(0,0,320,30))
+      view.backgroundColor = UIColor.yellowColor
+      view
     end
 
     private

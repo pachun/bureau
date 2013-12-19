@@ -2,7 +2,7 @@ describe 'A Bureau Populating its Menu' do
   before do
     @structure = [
       {
-        title: 'Section 1',
+        # title: 'Section 1',
         drawers:
         [
           {
@@ -24,7 +24,13 @@ describe 'A Bureau Populating its Menu' do
         title: 'Section 3'
       },
     ]
-    @bureau = Bureau::Bureau.new(structure:@structure)
+    @drawer_height = 80
+    @header_height = 100
+    @bureau = Bureau::Bureau.new(
+      structure:@structure,
+      drawer_height:@drawer_height,
+      header_height:@header_height,
+    )
   end
 
   it 'should have the correct number of sections' do
@@ -69,6 +75,17 @@ describe 'A Bureau Populating its Menu' do
         end
       end
     end
+  end
+
+  it "should set cell heights correctly" do
+    index_path = NSIndexPath.indexPathForRow(0, inSection:0)
+    height = @bureau.tableView(@bureau.table, heightForRowAtIndexPath:index_path)
+    height.should == @drawer_height
+  end
+
+  it "should set header heights correctly" do
+    height = @bureau.tableView(@bureau.table, heightForHeaderInSection:0)
+    height.should == @header_height
   end
 end
 

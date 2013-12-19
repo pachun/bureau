@@ -3,13 +3,14 @@ StatusBarHeight = 20
 module Bureau
   DefaultState = :closed
   DefaultDrawerHeight = 50
+  DefaultHeaderHeight = 60
   DefaultSlideWidth = 300
   DefaultSlideDuration = 0.3
 
   class Bureau < UIViewController
     include Menu
     attr_accessor :table, :structure,
-      :state, :drawer_height, :slide_width, :slide_duration, :status_bar_bg
+      :state, :drawer_height, :header_height, :slide_width, :slide_duration, :status_bar_bg
 
     def init
       InitializationError.need_hash
@@ -36,6 +37,7 @@ module Bureau
     def save_options(options)
       @state = options[:state] || DefaultState
       @drawer_height = options[:drawer_height] || DefaultDrawerHeight
+      @header_height = options[:header_height] || DefaultHeaderHeight
       @slide_width = options[:slide_width] || DefaultSlideWidth
       @slide_duration = options[:slide_duration] || DefaultSlideDuration
       setup_status_bar(options[:status_bar_color] || UIColor.whiteColor)

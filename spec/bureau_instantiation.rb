@@ -29,6 +29,7 @@ describe "A Bureau Being Instantiated" do
     bureau = Bureau::Bureau.new(structure:[])
     bureau.state.should == :closed
     bureau.drawer_height.should == 50
+    bureau.header_height.should == 60
     bureau.slide_width.should == 300
     bureau.slide_duration.should == 0.3
     bureau.status_bar_bg.backgroundColor.should == UIColor.whiteColor
@@ -37,6 +38,7 @@ describe "A Bureau Being Instantiated" do
   it "can manually set options in the init hash" do
     state = :open
     drawer_height = 60
+    header_height = 100
     slide_width = 280
     slide_duration = 1.0
     status_bar_color = UIColor.yellowColor
@@ -44,6 +46,7 @@ describe "A Bureau Being Instantiated" do
       structure: [],
       state: state,
       drawer_height: drawer_height,
+      header_height: header_height,
       slide_width: slide_width,
       slide_duration: slide_duration,
       status_bar_color: status_bar_color,
@@ -51,6 +54,7 @@ describe "A Bureau Being Instantiated" do
     bureau = Bureau::Bureau.new(options)
     bureau.state.should == state
     bureau.drawer_height.should == drawer_height
+    bureau.header_height.should == header_height
     bureau.slide_width.should == slide_width
     bureau.slide_duration.should == slide_duration
     bureau.status_bar_bg.backgroundColor.should == status_bar_color

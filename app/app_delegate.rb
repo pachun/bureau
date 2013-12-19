@@ -6,7 +6,7 @@ class AppDelegate
     @y = GreenVC.new
     structure = [
       {
-        title: "Section 1",
+        # title: "Section 1",
         drawers: [
           {
             title: "Drawer 1-1",
