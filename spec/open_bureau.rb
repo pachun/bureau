@@ -74,6 +74,7 @@ describe "A Bureau in the Open State" do
     tapped_path = NSIndexPath.indexPathForRow(0, inSection:1)
     @bureau.tableView(@bureau.table, didSelectRowAtIndexPath:tapped_path)
     @bureau.open_drawer[:controller_instance].should.be.instance_of SomeController
+    @bureau.open_drawer[:controller_instance].bureau.should == @bureau
   end
 
   it "re-instantiates controllers set as classes when tapped" do
