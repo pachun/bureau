@@ -44,7 +44,7 @@ module Bureau
 
     def animate_open
       UIView.animateWithDuration(@slide_duration, delay:0, options:0, animations: lambda do
-        open_drawer[:controller].view.frame = Frame::open(@slide_width)
+        current_controller_for(open_drawer).view.frame = Frame::open(@slide_width)
       end, completion: nil)
       @state = :open
     end
