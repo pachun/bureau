@@ -40,6 +40,7 @@ module Bureau
       if tapped_drawer.has_key?(:controller)
         close_open_drawer
         open(tapped_drawer)
+        toggle_menu_state
       elsif tapped_drawer.has_key?(:target)
         tapped_drawer[:target].send(tapped_drawer[:action])
       end

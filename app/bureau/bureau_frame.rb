@@ -17,5 +17,9 @@ module Bureau
       screen = UIScreen.mainScreen.bounds.size
       CGRectMake(width, 0, screen.width, screen.height)
     end
+
+    def self.closed
+      UIScreen.mainScreen.bounds
+    end
   end
 end

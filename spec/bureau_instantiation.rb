@@ -1,4 +1,10 @@
 describe "A Bureau Being Instantiated" do
+  before do
+    class UIViewController < UIResponder
+      include Bureau::Controller
+    end
+  end
+
   it "shows a descriptive error if a hash isn't given to #new" do
     exception = lambda{ Bureau::Bureau.new }.should.raise(Bureau::InitializationError)
     exception.message.should == "Bureau.new({}) requires a hash on initialization"
@@ -63,5 +69,25 @@ describe "A Bureau Being Instantiated" do
     views = bureau.view.subviews
     views.index(controller.view).should.be > views.index(bureau.status_bar_bg)
     views.index(controller.view).should.be > views.index(bureau.table)
+  end
+
+  it "sets all the controller's .bureau's to itself" do
+    controller = UIViewController.alloc.init
+    structure = [
+      {
+        drawers: [
+          {controller: controller}
+        ]
+      }
+    ]
+    bureau = Bureau::Bureau.new(structure:structure)
+    all_drawers = bureau.structure.inject([]) do |list, section|
+      section.has_key?(:drawers) ? list + section[:drawers] : list
+    end
+    all_drawers.each do |drawer|
+      if drawer.has_key?(:controller)
+        drawer[:controller].bureau.should == bureau unless drawer[:controller].class == Class
+      end
+    end
   end
 end

@@ -1,5 +1,8 @@
 describe "A Bureau Managing It's Drawers" do
   before do
+    class UIViewController < UIResponder
+      include Bureau::Controller
+    end
     @x = UIViewController.new
     @y = UIViewController.new
     @structure = [

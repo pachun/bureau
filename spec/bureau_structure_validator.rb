@@ -1,5 +1,8 @@
 describe 'A Bureau Instance Validating its Structure' do
   before do
+    class UIViewController < UIResponder
+      include Bureau::Controller
+    end
     @controller = UIViewController.alloc.init
     @structure = [
       {

@@ -19,40 +19,11 @@ module Bureau
       validate_and_save(options[:structure])
       save_options(options)
       setup_table
+      setup_controllers
       open(open_drawer) unless open_drawer.nil?
     end
 
-    def open_drawer
-      open = all_drawers.select{ |d| d[:open] == true }.first
-      if open.nil?
-        open = all_drawers.select{ |d| d.has_key?(:controller) }.first
-        open[:open] = true unless open.nil?
-      end
-      open
-    end
-
     private
-    def open(drawer)
-      drawer[:open] = true
-      addChildViewController(drawer[:controller])
-      drawer_view = drawer[:controller].view
-      drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
-      view.addSubview(drawer_view)
-    end
-
-    def close_open_drawer
-      last_open = open_drawer
-      last_open[:open] = false
-      last_open[:controller].removeFromParentViewController
-      last_open[:controller].view.removeFromSuperview
-    end
-
-    def all_drawers
-      @structure.inject([]) do |list, section|
-        section.has_key?(:drawers) ? list + section[:drawers] : list
-      end
-    end
-
     def validate_and_save(structure)
       if structure
         StructureValidator.instance.validate(structure)
@@ -83,6 +54,14 @@ module Bureau
       @table.delegate = self
       @table.dataSource = self
       view.addSubview(@table)
+    end
+
+    def setup_controllers
+      all_drawers.each do |drawer|
+        if drawer.has_key?(:controller)
+          drawer[:controller].bureau = self unless drawer[:controller].class == Class
+        end
+      end
     end
   end
 end

@@ -2,6 +2,8 @@ class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     return true if RUBYMOTION_ENV == 'test'
 
+    @x = BlueVC.new
+    @y = GreenVC.new
     structure = [
       {
         title: "Section 1",
@@ -10,13 +12,13 @@ class AppDelegate
             title: "Drawer 1-1",
             subtitle: "Hey 1",
             accessory: UITableViewCellAccessoryCheckmark,
-            controller: BlueVC.new,
+            controller: @x,
           },
           {
             title: "Drawer 1-2",
             subtitle: "Hey 2",
             icon: UIImage.imageNamed("martini.png"),
-            controller: GreenVC.new,
+            controller: @y,
           }
         ]
       },
@@ -49,13 +51,27 @@ class AppDelegate
 end
 
 class GreenVC < UIViewController
+  include Bureau::Controller
+
   def init
     view.backgroundColor = UIColor.greenColor
+    @button = UIButton.buttonWithType UIButtonTypeRoundedRect
+    @button.setTitle("Tap Me", forState:UIControlStateNormal)
+    @button.backgroundColor = UIColor.redColor
+    @button.frame = CGRectMake(50, 50, 150, 50)
+    @button.addTarget(self, action: :toggle_menu, forControlEvents:UIControlEventTouchUpInside)
+    view.addSubview(@button)
     super
+  end
+
+  def toggle_menu
+    toggle_bureau
   end
 end
 
 class BlueVC < UIViewController
+  include Bureau::Controller
+
   def init
     view.backgroundColor = UIColor.blueColor
     super
