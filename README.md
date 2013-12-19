@@ -1,5 +1,6 @@
 Bureau
 -
+![alt text](http://i.imgur.com/uUWU1F7.png "Bureau!")
 ####Install
 ```ruby
 gem 'bureau', '>=0.0.2', git: 'git://github.com/pachun/bureau.git'
@@ -108,3 +109,20 @@ class BlueVC < UIViewController
   end
 end
 ```
+
+You can also subclass Bureau::Bureau and use the following hooks to customize
+cells and header views:
+```ruby
+class MyBureau < Bureau::Bureau
+  def customize(cell, in_section:section, row:row)
+    cell.backgroundColor = UIColor.greenColor
+    cell
+  end
+
+  def customize_header_in_section(section)
+    UIView.alloc.initWithFrame(CGRectMake(0,0,20,20))
+  end
+end
+```
+The customize_header_in_section: method is called if you leave out the :title
+key in a section hash.
