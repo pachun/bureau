@@ -18,8 +18,8 @@ module Bureau
     def initialize(options)
       validate_and_save(options[:structure])
       save_options(options)
-      open(open_drawer) unless open_drawer.nil?
       setup_table
+      open(open_drawer) unless open_drawer.nil?
     end
 
     def open_drawer

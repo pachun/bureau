@@ -49,4 +49,19 @@ describe "A Bureau Being Instantiated" do
     bureau.slide_duration.should == slide_duration
     bureau.status_bar_bg.backgroundColor.should == status_bar_color
   end
+
+  it "puts the open drawer's view over the menu and status bar views" do
+    controller = UIViewController.alloc.init
+    structure = [
+      {
+        drawers: [
+          {controller: controller}
+        ]
+      }
+    ]
+    bureau = Bureau::Bureau.new(structure:structure)
+    views = bureau.view.subviews
+    views.index(controller.view).should.be > views.index(bureau.status_bar_bg)
+    views.index(controller.view).should.be > views.index(bureau.table)
+  end
 end
