@@ -7,7 +7,7 @@ Custom animated sidemenu controller.
 ###Install
 
 ```ruby
-gem 'bureau', '>=0.0.2', git: 'git://github.com/pachun/bureau.git'
+gem 'bureau', '>=0.0.3', git: 'git://github.com/pachun/bureau.git'
 ```
 
 ###Usage
@@ -77,6 +77,11 @@ __:target__
 __:action__
 Having these keys is the alternative to using the :controller key. Instead of switching to a new view, when a row with a :controller key is tapped, a row with a target/action key pair just runs the specified method. I thought it may be useful for short *About* popups and such. Tapping one of these rows will not animate shut the sidemenu by default.
 
+__:active__
+This should be set to true for just one of the drawers. It specifies which
+drawer's controller's view will be shown first by default, and, if you set an
+active cell background color, which drawer will have that background color...
+
 ###Other Customizations
 In addition to the structure key, the initialization hash takes some optional parameters:
 ```ruby
@@ -90,6 +95,9 @@ bureau = Bureau::Bureau.new(
   slide_width: 310, # defaults to 300
   slide_duration: 1.0, # defaults to 0.3
   status_bar_color: UIColor.redColor, # defaults to white
+  drawer_separators: :none, # don't set this if you want
+UITableViewCellSeparators on
+  active_cell_color: UIColor.purpleColor, # defaults to light gray
 )
 ```
 
