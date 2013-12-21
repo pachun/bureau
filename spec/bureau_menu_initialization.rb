@@ -32,9 +32,11 @@ describe "A Bureau Instance Initializing its Menu" do
   it "implements required table data source callback methods" do
     defined?(@bureau.tableView(:x, numberOfRowsInSection: :y)).should == "method"
     defined?(@bureau.tableView(:x, cellForRowAtIndexPath: :y)).should == "method"
-    # These test private methods;
-    #   comment out the private keyword to uncomment these
-    # @bureau.tableView(:x, numberOfRowsInSection: :y).class.should == Fixnum
-    # @bureau.tableView(:x, cellForRowAtIndexPath: :y).class.should == UITableViewCell
+  end
+
+  it "turns off the separator when set to" do
+    @bureau.table.separatorStyle.should == UITableViewCellSeparatorStyleSingleLine
+    bureau = Bureau::Bureau.new(structure:[], drawer_separators: :none)
+    bureau.table.separatorStyle.should == UITableViewCellSeparatorStyleNone
   end
 end

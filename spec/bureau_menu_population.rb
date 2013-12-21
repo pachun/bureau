@@ -1,19 +1,24 @@
 describe 'A Bureau Populating its Menu' do
   before do
+    class UIViewController < UIResponder
+      include Bureau::Controller
+    end
     @structure = [
       {
-        # title: 'Section 1',
         drawers:
         [
           {
             title: 'Option 1.1',
             accessory: UITableViewCellAccessoryCheckmark,
+            controller: UIViewController.new,
+            active: true,
           },
           {
             title: 'Option 1.2',
             subtitle: 'Quiet Note',
             icon: UIImage.imageNamed('martini.png'),
             accessory: UIView.alloc.initWithFrame(CGRectMake(0,0,28,28)),
+            controller: UIViewController.new,
           },
         ],
       },
@@ -88,4 +93,3 @@ describe 'A Bureau Populating its Menu' do
     height.should == @header_height
   end
 end
-

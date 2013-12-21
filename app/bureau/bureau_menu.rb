@@ -33,9 +33,9 @@ module Bureau
     end
 
     def tableView(_, cellForRowAtIndexPath:index_path)
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle,
-                                          reuseIdentifier: Cell)
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, reuseIdentifier: Cell)
       drawer = @structure[index_path.section][:drawers][index_path.row]
+      apply_active_color(cell, drawer, index_path)
       decorate(cell, content:drawer)
       customize(cell, in_section:index_path.section, row:index_path.row)
       cell
@@ -71,6 +71,20 @@ module Bureau
       elsif tapped_drawer.has_key?(:target)
         tapped_drawer[:target].send(tapped_drawer[:action])
       end
+    end
+
+    def apply_active_color(cell, drawer, index_path)
+      set_active_cell_color_on(cell)
+      if drawer[:open]
+        @table.selectRowAtIndexPath(index_path, animated:false, scrollPosition:UITableViewScrollPositionNone)
+      end
+    end
+
+    def set_active_cell_color_on(cell)
+      selected_bg_view = UIView.alloc.init
+      selected_bg_view.backgroundColor = @active_cell_color
+      selected_bg_view.layer.masksToBounds = true
+      cell.selectedBackgroundView = selected_bg_view
     end
 
     def decorate(cell, content:drawer)
