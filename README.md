@@ -95,8 +95,7 @@ bureau = Bureau::Bureau.new(
   slide_width: 310, # defaults to 300
   slide_duration: 1.0, # defaults to 0.3
   status_bar_color: UIColor.redColor, # defaults to white
-  drawer_separators: :none, # don't set this if you want
-UITableViewCellSeparators on
+  drawer_separators: :none, # don't set this if you want UITableViewCellSeparators on
   active_cell_color: UIColor.purpleColor, # defaults to light gray
 )
 ```
