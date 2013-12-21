@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bureau'
-  s.version     = '0.0.2'
+  s.version     = '0.0.3'
   s.date        = '2013-12-20'
   s.summary     = "A RubyMotion sidemenu wrapper."
   s.description = "A RubyMotion wrapper for creating animated sidemenus."
@@ -8,5 +8,5 @@ Gem::Specification.new do |s|
   s.email       = 'hello@nickpachulski.com'
   s.files       = ["lib/bureau.rb"]
   s.homepage    = 'http://pachulski.me'
-  s.license       = 'MIT'
+  s.license     = 'MIT'
 end

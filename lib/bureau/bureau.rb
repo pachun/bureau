@@ -6,11 +6,16 @@ module Bureau
   DefaultHeaderHeight = 60
   DefaultSlideWidth = 300
   DefaultSlideDuration = 0.3
+  DefaultDrawerSeparators = true
+  DefaultActiveCellColor = UIColor.lightGrayColor
+  DefaultStatusBarColor = UIColor.whiteColor
 
   class Bureau < UIViewController
     include Menu
     attr_accessor :table, :structure,
-      :state, :drawer_height, :header_height, :slide_width, :slide_duration, :status_bar_bg
+      :state, :drawer_height, :header_height,
+      :slide_width, :slide_duration, :status_bar_bg,
+      :drawer_separators, :active_cell_color
 
     def init
       InitializationError.need_hash
@@ -40,18 +45,22 @@ module Bureau
       @header_height = options[:header_height] || DefaultHeaderHeight
       @slide_width = options[:slide_width] || DefaultSlideWidth
       @slide_duration = options[:slide_duration] || DefaultSlideDuration
-      setup_status_bar(options[:status_bar_color] || UIColor.whiteColor)
+      @drawer_separators = options[:drawer_separators] || DefaultDrawerSeparators
+      @active_cell_color = options[:active_cell_color] || DefaultActiveCellColor
+      setup_status_bar(options[:status_bar_color] || DefaultStatusBarColor)
     end
 
     def setup_status_bar(bg_color)
-      @status_bar_bg = UIView.alloc.initWithFrame(CGRectMake(0,0,320,20))
+      device_width = UIScreen.mainScreen.bounds.size.width
+      dimensions = CGRectMake(0,0,device_width,StatusBarHeight)
+      @status_bar_bg = UIView.alloc.initWithFrame(dimensions)
       @status_bar_bg.backgroundColor = bg_color
       view.addSubview(@status_bar_bg)
     end
 
     def setup_table
-      @table = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds,
-                                                style:UITableViewStylePlain)
+      @table = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds, style:UITableViewStylePlain)
+      @table.separatorStyle = UITableViewCellSeparatorStyleNone if @drawer_separators == :none
       @table.frame = Frame::menu
       @table.delegate = self
       @table.dataSource = self
