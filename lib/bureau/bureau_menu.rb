@@ -57,9 +57,8 @@ module Bureau
     end
 
     def customize_header_in_section(section)
-      view = UIView.alloc.initWithFrame(CGRectMake(0,0,320,30))
-      view.backgroundColor = UIColor.yellowColor
-      view
+      screen_width = UIScreen.mainScreen.bounds.size.width
+      UIView.alloc.initWithFrame(CGRectMake(0,0,screen_width,@header_height))
     end
 
     private
@@ -88,6 +87,7 @@ module Bureau
     end
 
     def decorate(cell, content:drawer)
+      cell.textLabel.font = @drawer_font
       cell.textLabel.text = drawer[:title] || ''
       cell.detailTextLabel.text = drawer[:subtitle] || ''
       cell.imageView.image = drawer[:icon]

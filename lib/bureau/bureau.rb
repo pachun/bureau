@@ -9,13 +9,15 @@ module Bureau
   DefaultDrawerSeparators = true
   DefaultActiveCellColor = UIColor.lightGrayColor
   DefaultStatusBarColor = UIColor.whiteColor
+  DefaultDrawerFont = UIFont.systemFontOfSize(12)
 
   class Bureau < UIViewController
     include Menu
     attr_accessor :table, :structure,
       :state, :drawer_height, :header_height,
       :slide_width, :slide_duration, :status_bar_bg,
-      :drawer_separators, :active_cell_color
+      :drawer_separators, :active_cell_color,
+      :drawer_font
 
     def init
       InitializationError.need_hash
@@ -47,6 +49,7 @@ module Bureau
       @slide_duration = options[:slide_duration] || DefaultSlideDuration
       @drawer_separators = options[:drawer_separators] || DefaultDrawerSeparators
       @active_cell_color = options[:active_cell_color] || DefaultActiveCellColor
+      @drawer_font = options[:drawer_font] || DefaultDrawerFont
       setup_status_bar(options[:status_bar_color] || DefaultStatusBarColor)
     end
 
