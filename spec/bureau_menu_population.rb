@@ -31,10 +31,14 @@ describe 'A Bureau Populating its Menu' do
     ]
     @drawer_height = 80
     @header_height = 100
+    @drawer_font = UIFont.systemFontOfSize(16)
+    @header_font = UIFont.boldSystemFontOfSize(20)
     @bureau = Bureau::Bureau.new(
       structure:@structure,
       drawer_height:@drawer_height,
       header_height:@header_height,
+      drawer_font: @drawer_font,
+      header_font: @header_font,
     )
   end
 
@@ -82,7 +86,7 @@ describe 'A Bureau Populating its Menu' do
     end
   end
 
-  it "should set cell heights correctly" do
+  it "should set drawer heights correctly" do
     index_path = NSIndexPath.indexPathForRow(0, inSection:0)
     height = @bureau.tableView(@bureau.table, heightForRowAtIndexPath:index_path)
     height.should == @drawer_height
@@ -91,5 +95,11 @@ describe 'A Bureau Populating its Menu' do
   it "should set header heights correctly" do
     height = @bureau.tableView(@bureau.table, heightForHeaderInSection:0)
     height.should == @header_height
+  end
+
+  it "should set drawer fonts correctly" do
+    index_path = NSIndexPath.indexPathForRow(0, inSection:0)
+    cell = @bureau.tableView(@bureau.table, cellForRowAtIndexPath:index_path)
+    cell.textLabel.font.should == @drawer_font
   end
 end

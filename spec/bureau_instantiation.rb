@@ -35,6 +35,7 @@ describe "A Bureau Being Instantiated" do
     bureau.drawer_separators.should == Bureau::DefaultDrawerSeparators
     bureau.active_cell_color.should == Bureau::DefaultActiveCellColor
     bureau.status_bar_bg.backgroundColor.should == Bureau::DefaultStatusBarColor
+    bureau.drawer_font.should == Bureau::DefaultDrawerFont
   end
 
   it "can manually set options in the init hash" do
@@ -46,6 +47,7 @@ describe "A Bureau Being Instantiated" do
     slide_width = 280
     slide_duration = 1.0
     status_bar_color = UIColor.yellowColor
+    drawer_font = UIFont.systemFontOfSize(16)
     options = {
       structure: [],
       state: state,
@@ -56,6 +58,7 @@ describe "A Bureau Being Instantiated" do
       drawer_separators: drawer_separators,
       active_cell_color: active_cell_color,
       status_bar_color: status_bar_color,
+      drawer_font: drawer_font,
     }
     bureau = Bureau::Bureau.new(options)
     bureau.state.should == state
@@ -66,6 +69,7 @@ describe "A Bureau Being Instantiated" do
     bureau.drawer_separators.should == drawer_separators
     bureau.active_cell_color.should == active_cell_color
     bureau.status_bar_bg.backgroundColor.should == status_bar_color
+    bureau.drawer_font.should == drawer_font
   end
 
   it "puts the open drawer's view over the menu and status bar views" do
