@@ -97,6 +97,7 @@ bureau = Bureau::Bureau.new(
   status_bar_color: UIColor.redColor, # defaults to white
   drawer_separators: :none, # don't set this if you want UITableViewCellSeparators on
   active_cell_color: UIColor.purpleColor, # defaults to light gray
+  drawer_font: UIFont.systemFontOfSize(14), # defaults to 12pt Helvetica Neue
 )
 ```
 
