@@ -1,8 +1,8 @@
 module Bureau
   module Frame
-    def self.menu
+    def self.menu(width)
       screen = UIScreen.mainScreen.bounds.size
-      CGRectMake(0, StatusBarHeight, screen.width, screen.height-StatusBarHeight)
+      CGRectMake(0, StatusBarHeight, width, screen.height-StatusBarHeight)
     end
 
     def self.for_state(state, sliding:width)

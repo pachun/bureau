@@ -10,6 +10,8 @@ module Bureau
   DefaultActiveCellColor = UIColor.lightGrayColor
   DefaultStatusBarColor = UIColor.whiteColor
   DefaultDrawerFont = UIFont.systemFontOfSize(12)
+  DefaultDrawerTextColor = UIColor.blackColor
+  MenuScrolling = :no
 
   class Bureau < UIViewController
     include Menu
@@ -17,7 +19,7 @@ module Bureau
       :state, :drawer_height, :header_height,
       :slide_width, :slide_duration, :status_bar_bg,
       :drawer_separators, :active_cell_color,
-      :drawer_font
+      :drawer_font, :drawer_text_color, :menu_scrolling
 
     def init
       InitializationError.need_hash
@@ -50,6 +52,8 @@ module Bureau
       @drawer_separators = options[:drawer_separators] || DefaultDrawerSeparators
       @active_cell_color = options[:active_cell_color] || DefaultActiveCellColor
       @drawer_font = options[:drawer_font] || DefaultDrawerFont
+      @drawer_text_color = options[:drawer_text_color] || DefaultDrawerTextColor
+      @menu_scrolling = options[:menu_scrolling] || MenuScrolling
       setup_status_bar(options[:status_bar_color] || DefaultStatusBarColor)
     end
 
@@ -62,9 +66,9 @@ module Bureau
     end
 
     def setup_table
-      @table = UITableView.alloc.initWithFrame(UIScreen.mainScreen.bounds, style:UITableViewStylePlain)
+      @table = UITableView.alloc.initWithFrame(Frame::menu(@slide_width), style:UITableViewStylePlain)
       @table.separatorStyle = UITableViewCellSeparatorStyleNone if @drawer_separators == :none
-      @table.frame = Frame::menu
+      @table.scrollEnabled = @menu_scrolling == :no ? false : true
       @table.delegate = self
       @table.dataSource = self
       view.addSubview(@table)

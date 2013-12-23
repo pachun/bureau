@@ -98,6 +98,8 @@ bureau = Bureau::Bureau.new(
   drawer_separators: :none, # don't set this if you want UITableViewCellSeparators on
   active_cell_color: UIColor.purpleColor, # defaults to light gray
   drawer_font: UIFont.systemFontOfSize(14), # defaults to 12pt Helvetica Neue
+  drawer_text_color: UIColor.greenColor, # defaults to black
+  menu_scrolling: :yes, # defaults to :no
 )
 ```
 

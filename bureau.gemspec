@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'bureau'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.date        = '2013-12-20'
   s.summary     = "A RubyMotion sidemenu wrapper."
   s.description = "A RubyMotion wrapper for creating animated sidemenus."

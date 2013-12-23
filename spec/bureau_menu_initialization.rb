@@ -7,13 +7,13 @@ describe "A Bureau Instance Initializing its Menu" do
     @bureau.table.class.should == UITableView
   end
 
-  it "fullscreens the table under the status bar" do
+  it "frames the table under the status bar and the width of the slide animation" do
     table_frame = @bureau.table.frame
     table_frame.origin.x.should == 0
     table_frame.origin.y.should == StatusBarHeight
 
     screen = UIScreen.mainScreen.bounds.size
-    table_frame.size.width.should == screen.width
+    table_frame.size.width.should == @bureau.slide_width
     table_frame.size.height.should == screen.height - StatusBarHeight
   end
 
@@ -38,5 +38,11 @@ describe "A Bureau Instance Initializing its Menu" do
     @bureau.table.separatorStyle.should == UITableViewCellSeparatorStyleSingleLine
     bureau = Bureau::Bureau.new(structure:[], drawer_separators: :none)
     bureau.table.separatorStyle.should == UITableViewCellSeparatorStyleNone
+  end
+
+  it "turns off table scrolling when set to" do
+    @bureau.table.scrollEnabled?.should == false
+    bureau = Bureau::Bureau.new(structure:[], menu_scrolling: :yes)
+    bureau.table.scrollEnabled?.should == true
   end
 end

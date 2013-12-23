@@ -36,6 +36,8 @@ describe "A Bureau Being Instantiated" do
     bureau.active_cell_color.should == Bureau::DefaultActiveCellColor
     bureau.status_bar_bg.backgroundColor.should == Bureau::DefaultStatusBarColor
     bureau.drawer_font.should == Bureau::DefaultDrawerFont
+    bureau.drawer_text_color.should == Bureau::DefaultDrawerTextColor
+    bureau.menu_scrolling.should == Bureau::MenuScrolling
   end
 
   it "can manually set options in the init hash" do
@@ -48,6 +50,8 @@ describe "A Bureau Being Instantiated" do
     slide_duration = 1.0
     status_bar_color = UIColor.yellowColor
     drawer_font = UIFont.systemFontOfSize(16)
+    drawer_text_color = UIColor.redColor
+    menu_scrolling = :yes
     options = {
       structure: [],
       state: state,
@@ -59,6 +63,8 @@ describe "A Bureau Being Instantiated" do
       active_cell_color: active_cell_color,
       status_bar_color: status_bar_color,
       drawer_font: drawer_font,
+      drawer_text_color: drawer_text_color,
+      menu_scrolling: menu_scrolling,
     }
     bureau = Bureau::Bureau.new(options)
     bureau.state.should == state
@@ -70,6 +76,8 @@ describe "A Bureau Being Instantiated" do
     bureau.active_cell_color.should == active_cell_color
     bureau.status_bar_bg.backgroundColor.should == status_bar_color
     bureau.drawer_font.should == drawer_font
+    bureau.drawer_text_color.should == drawer_text_color
+    bureau.menu_scrolling.should == menu_scrolling
   end
 
   it "puts the open drawer's view over the menu and status bar views" do

@@ -33,20 +33,22 @@ describe 'A Bureau Populating its Menu' do
     @header_height = 100
     @drawer_font = UIFont.systemFontOfSize(16)
     @header_font = UIFont.boldSystemFontOfSize(20)
+    @drawer_text_color = UIColor.yellowColor
     @bureau = Bureau::Bureau.new(
       structure:@structure,
       drawer_height:@drawer_height,
       header_height:@header_height,
       drawer_font: @drawer_font,
       header_font: @header_font,
+      drawer_text_color: @drawer_text_color,
     )
   end
 
-  it 'should have the correct number of sections' do
+  it 'has the correct number of sections' do
     @bureau.numberOfSectionsInTableView(@bureau.table).should == @structure.count
   end
 
-  it 'should have the correct number of rows' do
+  it 'has the correct number of rows' do
     @structure.each_with_index do |section, position|
       if section.has_key? :drawers
         num_rows = section[:drawers].count
@@ -57,14 +59,14 @@ describe 'A Bureau Populating its Menu' do
     end
   end
 
-  it 'should title the sections correctly' do
+  it 'titles the sections' do
     @structure.each_with_index do |section, position|
       title = section[:title] || ''
       @bureau.tableView(@bureau.table, titleForHeaderInSection:position).should == title
     end
   end
 
-  it 'should populate the cell\'s title, subtitle, icon, and accessory correctly ' do
+  it 'populates the cell\'s title, subtitle, icon, and accessory' do
     @structure.each_with_index do |section, section_num|
       if section.has_key? :drawers
         section[:drawers].each_with_index do |row, row_num|
@@ -86,20 +88,26 @@ describe 'A Bureau Populating its Menu' do
     end
   end
 
-  it "should set drawer heights correctly" do
+  it "sets drawer heights" do
     index_path = NSIndexPath.indexPathForRow(0, inSection:0)
     height = @bureau.tableView(@bureau.table, heightForRowAtIndexPath:index_path)
     height.should == @drawer_height
   end
 
-  it "should set header heights correctly" do
+  it "sets header heights" do
     height = @bureau.tableView(@bureau.table, heightForHeaderInSection:0)
     height.should == @header_height
   end
 
-  it "should set drawer fonts correctly" do
+  it "sets drawer fonts" do
     index_path = NSIndexPath.indexPathForRow(0, inSection:0)
     cell = @bureau.tableView(@bureau.table, cellForRowAtIndexPath:index_path)
     cell.textLabel.font.should == @drawer_font
+  end
+
+  it "sets drawer font colors" do
+    index_path = NSIndexPath.indexPathForRow(0, inSection:0)
+    cell = @bureau.tableView(@bureau.table, cellForRowAtIndexPath:index_path)
+    cell.textLabel.textColor.should == @drawer_text_color
   end
 end

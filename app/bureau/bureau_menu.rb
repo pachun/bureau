@@ -88,6 +88,7 @@ module Bureau
 
     def decorate(cell, content:drawer)
       cell.textLabel.font = @drawer_font
+      cell.textLabel.textColor = @drawer_text_color
       cell.textLabel.text = drawer[:title] || ''
       cell.detailTextLabel.text = drawer[:subtitle] || ''
       cell.imageView.image = drawer[:icon]
