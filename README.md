@@ -7,7 +7,7 @@ Custom animated sidemenu controller.
 ###Install
 
 ```ruby
-gem 'bureau', '>=0.0.3', git: 'git://github.com/pachun/bureau.git'
+gem 'bureau', '>=0.0.5', git: 'git://github.com/pachun/bureau.git'
 ```
 
 ###Usage
