@@ -44,7 +44,7 @@ class AppDelegate
                                 slide_width: 250,
                                 active_cell_color: UIColor.clearColor,
                                 drawer_separators: :none,
-                                # has_shadow: :yes,
+                                has_shadow: :yes,
                                 slide_duration: 2,
                                )
     @window = UIWindow.alloc.initWithFrame UIScreen.mainScreen.bounds
