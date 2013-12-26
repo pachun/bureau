@@ -28,10 +28,14 @@ module Bureau
     def open(drawer)
       drawer[:open] = true
       controller = new_controller_for(drawer)
+      controller.willMoveToParentViewController(self)
       addChildViewController(controller)
+      controller.didMoveToParentViewController(self)
       drawer_view = controller.view
       drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
+      controller.viewWillAppear(true)
       view.addSubview(drawer_view)
+      controller.viewDidAppear(true)
     end
 
     def close_open_drawer
