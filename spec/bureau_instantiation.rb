@@ -25,6 +25,34 @@ describe "A Bureau Being Instantiated" do
     bureau.status_bar_bg.superview.should == bureau.view
   end
 
+  it "adds a drop shadow and animates it properly" do
+    structure = [
+      {
+        drawers: [
+          {controller: UIViewController.alloc.init}
+        ]
+      }
+    ]
+    bureau = Bureau::Bureau.new(structure:structure, has_shadow: :yes, state: :open)
+    bureau.shadow_view.should.be.instance_of UIView
+    bureau.view.subviews.should.include bureau.shadow_view
+    bureau.shadow_view.frame.should == Bureau::Frame.open_shadow(bureau.slide_width)
+    bureau.toggle_menu_state
+    bureau.shadow_view.frame.should == Bureau::Frame.closed_shadow
+  end
+
+  it "does not try to animate the shadow view if none exists" do
+    structure = [
+      {
+        drawers: [
+          {controller: UIViewController.alloc.init}
+        ]
+      }
+    ]
+    bureau = Bureau::Bureau.new(structure:structure, has_shadow: :no)
+    lambda{ bureau.toggle_menu_state }.should.not.raise StandardError
+  end
+
   it "sensibly defaults menu options" do
     bureau = Bureau::Bureau.new(structure:[])
     bureau.state.should == Bureau::DefaultState
@@ -38,6 +66,7 @@ describe "A Bureau Being Instantiated" do
     bureau.drawer_font.should == Bureau::DefaultDrawerFont
     bureau.drawer_text_color.should == Bureau::DefaultDrawerTextColor
     bureau.menu_scrolling.should == Bureau::MenuScrolling
+    bureau.has_shadow.should == Bureau::HasShadow
   end
 
   it "can manually set options in the init hash" do
@@ -52,6 +81,7 @@ describe "A Bureau Being Instantiated" do
     drawer_font = UIFont.systemFontOfSize(16)
     drawer_text_color = UIColor.redColor
     menu_scrolling = :yes
+    has_shadow = :yes
     options = {
       structure: [],
       state: state,
@@ -65,6 +95,7 @@ describe "A Bureau Being Instantiated" do
       drawer_font: drawer_font,
       drawer_text_color: drawer_text_color,
       menu_scrolling: menu_scrolling,
+      has_shadow: has_shadow,
     }
     bureau = Bureau::Bureau.new(options)
     bureau.state.should == state
@@ -78,6 +109,7 @@ describe "A Bureau Being Instantiated" do
     bureau.drawer_font.should == drawer_font
     bureau.drawer_text_color.should == drawer_text_color
     bureau.menu_scrolling.should == menu_scrolling
+    bureau.has_shadow.should == has_shadow
   end
 
   it "puts the open drawer's view over the menu and status bar views" do

@@ -12,6 +12,7 @@ module Bureau
   DefaultDrawerFont = UIFont.systemFontOfSize(12)
   DefaultDrawerTextColor = UIColor.blackColor
   MenuScrolling = :no
+  HasShadow = :no
 
   class Bureau < UIViewController
     include Menu
@@ -19,7 +20,8 @@ module Bureau
       :state, :drawer_height, :header_height,
       :slide_width, :slide_duration, :status_bar_bg,
       :drawer_separators, :active_cell_color,
-      :drawer_font, :drawer_text_color, :menu_scrolling
+      :drawer_font, :drawer_text_color, :menu_scrolling,
+      :has_shadow, :shadow_view
 
     def init
       InitializationError.need_hash
@@ -29,6 +31,7 @@ module Bureau
       validate_and_save(options[:structure])
       save_options(options)
       setup_table
+      add_shadow if @has_shadow == :yes
       setup_controllers
       open(open_drawer) unless open_drawer.nil?
     end
@@ -54,7 +57,21 @@ module Bureau
       @drawer_font = options[:drawer_font] || DefaultDrawerFont
       @drawer_text_color = options[:drawer_text_color] || DefaultDrawerTextColor
       @menu_scrolling = options[:menu_scrolling] || MenuScrolling
+      @has_shadow = options[:has_shadow] || HasShadow
       setup_status_bar(options[:status_bar_color] || DefaultStatusBarColor)
+    end
+
+    def add_shadow
+      shadow_frame = (@state == :open ? Frame.open_shadow(@slide_width) : Frame.closed_shadow)
+      @shadow_view = UIView.alloc.initWithFrame(shadow_frame).tap do |view|
+        view.layer.masksToBounds = false
+        view.layer.cornerRadius = 2
+        view.layer.shadowOffset = CGSizeMake(-5, 0)
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.6
+        view.backgroundColor = UIColor.whiteColor
+      end
+      view.addSubview(@shadow_view)
     end
 
     def setup_status_bar(bg_color)

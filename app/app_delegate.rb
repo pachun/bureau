@@ -41,9 +41,11 @@ class AppDelegate
 
     bureau = Bureau::Bureau.new(structure:structure,
                                 state: :open,
-                                slide_width: 500,
+                                slide_width: 250,
                                 active_cell_color: UIColor.clearColor,
                                 drawer_separators: :none,
+                                # has_shadow: :yes,
+                                slide_duration: 2,
                                )
     @window = UIWindow.alloc.initWithFrame UIScreen.mainScreen.bounds
     @window.rootViewController = bureau

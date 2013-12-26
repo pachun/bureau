@@ -7,7 +7,7 @@ Custom animated sidemenu controller.
 ###Install
 
 ```ruby
-gem 'bureau', '>=0.0.5', git: 'git://github.com/pachun/bureau.git'
+gem 'bureau', '>=0.0.6', git: 'git://github.com/pachun/bureau.git'
 ```
 
 ###Usage
@@ -100,6 +100,7 @@ bureau = Bureau::Bureau.new(
   drawer_font: UIFont.systemFontOfSize(14), # defaults to 12pt Helvetica Neue
   drawer_text_color: UIColor.greenColor, # defaults to black
   menu_scrolling: :yes, # defaults to :no
+  has_shadow: :yes, # defaults to :no
 )
 ```
 

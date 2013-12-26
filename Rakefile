@@ -11,6 +11,7 @@ end
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'bureau'
+  app.frameworks += ['QuartzCore']
 
   app.files_dependencies 'app/bureau/bureau.rb' => 'app/bureau/bureau_menu.rb'
 end

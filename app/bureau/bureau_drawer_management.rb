@@ -45,6 +45,7 @@ module Bureau
     def animate_open
       UIView.animateWithDuration(@slide_duration, delay:0, options:0, animations: lambda do
         current_controller_for(open_drawer).view.frame = Frame::open(@slide_width)
+        @shadow_view.frame = Frame::open_shadow(@slide_width) if @has_shadow == :yes
       end, completion: nil)
       @state = :open
     end
@@ -52,6 +53,7 @@ module Bureau
     def animate_closed
       UIView.animateWithDuration(@slide_duration, delay:0, options:0, animations: lambda do
         current_controller_for(open_drawer).view.frame = Frame::closed
+        @shadow_view.frame = Frame::closed_shadow if @has_shadow == :yes
       end, completion: nil)
       @state = :closed
     end
