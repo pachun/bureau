@@ -32,7 +32,10 @@ module Bureau
       addChildViewController(controller)
       controller.didMoveToParentViewController(self)
       drawer_view = controller.view
-      drawer_view.frame = Frame::for_state(@state, sliding:@slide_width)
+      drawer_view.frame = Frame::for_state(@state,
+                                           sliding:@slide_width,
+                                           orientations:@orientations,
+                                           last_frame: drawer_view.frame)
       controller.viewWillAppear(true)
       view.addSubview(drawer_view)
       controller.viewDidAppear(true)
@@ -50,7 +53,8 @@ module Bureau
 
     def animate_open
       UIView.animateWithDuration(@slide_duration, delay:0, options:0, animations: lambda do
-        current_controller_for(open_drawer).view.frame = Frame::open(@slide_width)
+        last_frame = current_controller_for(open_drawer).view.frame
+        current_controller_for(open_drawer).view.frame = Frame::open(@slide_width, @orientations, last_frame)
         @shadow_view.frame = Frame::open_shadow(@slide_width) if @has_shadow == :yes
       end, completion: nil)
       @state = :open
@@ -58,7 +62,8 @@ module Bureau
 
     def animate_closed
       UIView.animateWithDuration(@slide_duration, delay:0, options:0, animations: lambda do
-        current_controller_for(open_drawer).view.frame = Frame::closed
+        last_frame = current_controller_for(open_drawer).view.frame
+        current_controller_for(open_drawer).view.frame = Frame::closed(@orientations, last_frame)
         @shadow_view.frame = Frame::closed_shadow if @has_shadow == :yes
       end, completion: nil)
       @state = :closed

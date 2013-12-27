@@ -7,7 +7,7 @@ Custom animated sidemenu controller.
 ###Install
 
 ```ruby
-gem 'bureau', '>=0.1.0', git: 'git://github.com/pachun/bureau.git'
+gem 'bureau', '>=0.1.2', git: 'git://github.com/pachun/bureau.git'
 ```
 
 ###Usage
@@ -101,6 +101,7 @@ bureau = Bureau::Bureau.new(
   drawer_text_color: UIColor.greenColor, # defaults to black
   menu_scrolling: :yes, # defaults to :no
   has_shadow: :yes, # defaults to :no
+  orientations: [1], # defaults to [1,3,4] (https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDevice_Class/Reference/UIDevice.html#//apple_ref/doc/c_ref/UIDeviceOrientation)
 )
 ```
 

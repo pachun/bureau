@@ -5,20 +5,36 @@ module Bureau
       CGRectMake(0, StatusBarHeight, width, screen.height-StatusBarHeight)
     end
 
-    def self.for_state(state, sliding:width)
+    def self.for_state(state, sliding:width, orientations:orientations, last_frame:last_frame)
       if state == :open
-        open(width)
+        open(width, orientations, last_frame)
       else
         UIScreen.mainScreen.bounds
       end
     end
 
-    def self.open(slide_width)
-      screen_frame(slide_width, 0)
+    def self.open(slide_width, orientations, last_frame)
+      if orientations.include?(UIDevice.currentDevice.orientation)
+        screen_frame(slide_width, 0)
+      else
+        slide_right(last_frame, slide_width)
+      end
     end
 
-    def self.closed
-      screen_frame(0,0)
+    def self.closed(orientations, last_frame)
+      if orientations.include?(UIDevice.currentDevice.orientation)
+        screen_frame(0,0)
+      else
+        slide_left(last_frame)
+      end
+    end
+
+    def self.slide_left(frame)
+      CGRectMake(0,0,frame.size.width,frame.size.height)
+    end
+
+    def self.slide_right(frame, distance)
+      CGRectMake(distance,0,frame.size.width,frame.size.height)
     end
 
     def self.screen_frame(x_origin, y_origin)

@@ -1,8 +1,8 @@
-# class UIViewController < UIResponder
-#   def shouldAutorotate
-#     true
-#   end
-# end
+class UIViewController < UIResponder
+  def shouldAutorotate
+    true
+  end
+end
 
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
@@ -52,6 +52,7 @@ class AppDelegate
                                 drawer_separators: :none,
                                 has_shadow: :yes,
                                 slide_duration: 2,
+                                orientations: [1,3,4],
                                )
     @window = UIWindow.alloc.initWithFrame UIScreen.mainScreen.bounds
     @window.rootViewController = bureau
