@@ -43,7 +43,9 @@ module Bureau
       open[:open] = false
       open_controller = current_controller_for(open)
       open_controller.removeFromParentViewController
+      open_controller.viewWillDisappear(true)
       open_controller.view.removeFromSuperview
+      open_controller.viewDidDisappear(true)
     end
 
     def animate_open
