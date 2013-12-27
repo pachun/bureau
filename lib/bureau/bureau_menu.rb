@@ -64,8 +64,10 @@ module Bureau
     private
     def tapped(tapped_drawer)
       if tapped_drawer.has_key?(:controller)
-        close_open_drawer
-        open(tapped_drawer)
+        if tapped_drawer != open_drawer
+          close_open_drawer
+          open(tapped_drawer)
+        end
         toggle_menu_state
       elsif tapped_drawer.has_key?(:target)
         tapped_drawer[:target].send(tapped_drawer[:action])
