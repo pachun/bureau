@@ -1,8 +1,8 @@
-class UIViewController < UIResponder
-  def shouldAutorotate
-    true
-  end
-end
+# class UIViewController < UIResponder
+#   def shouldAutorotate
+#     true
+#   end
+# end
 
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)

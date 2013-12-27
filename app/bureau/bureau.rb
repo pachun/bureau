@@ -13,6 +13,7 @@ module Bureau
   DefaultDrawerTextColor = UIColor.blackColor
   MenuScrolling = :no
   HasShadow = :no
+  Orientations = [1,3,4]
 
   class Bureau < UIViewController
     include Menu
@@ -21,7 +22,7 @@ module Bureau
       :slide_width, :slide_duration, :status_bar_bg,
       :drawer_separators, :active_cell_color,
       :drawer_font, :drawer_text_color, :menu_scrolling,
-      :has_shadow, :shadow_view
+      :has_shadow, :shadow_view, :orientations
 
     def init
       InitializationError.need_hash
@@ -58,6 +59,7 @@ module Bureau
       @drawer_text_color = options[:drawer_text_color] || DefaultDrawerTextColor
       @menu_scrolling = options[:menu_scrolling] || MenuScrolling
       @has_shadow = options[:has_shadow] || HasShadow
+      @orientations = options[:orientations] || Orientations
       setup_status_bar(options[:status_bar_color] || DefaultStatusBarColor)
     end
 
