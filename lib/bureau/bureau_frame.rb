@@ -13,13 +13,20 @@ module Bureau
       end
     end
 
-    def self.open(width)
-      screen = UIScreen.mainScreen.bounds.size
-      CGRectMake(width, 0, screen.width, screen.height)
+    def self.open(slide_width)
+      screen_frame(slide_width, 0)
     end
 
     def self.closed
-      UIScreen.mainScreen.bounds
+      screen_frame(0,0)
+    end
+
+    def self.screen_frame(x_origin, y_origin)
+      screen = UIScreen.mainScreen.bounds.size
+      orientation = UIDevice.currentDevice.orientation
+      width = (orientation == 3 || orientation == 4) ? screen.height : screen.width
+      height = (orientation == 3 || orientation == 4) ? screen.width : screen.height
+      CGRectMake(x_origin, y_origin, width, height)
     end
 
     def self.open_shadow(width)

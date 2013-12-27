@@ -1,3 +1,9 @@
+class UIViewController < UIResponder
+  def shouldAutorotate
+    true
+  end
+end
+
 class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
     return true if RUBYMOTION_ENV == 'test'
