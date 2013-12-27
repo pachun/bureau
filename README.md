@@ -2,8 +2,7 @@ Bureau
 -
 Custom animated sidemenu controller.
 
-![alt text](http://i.imgur.com/uUWU1F7.png "Bureau!")
-
+![alt text](http://i.imgur.com/82Ij89V.png "Bureau")
 ###Install
 
 ```ruby
