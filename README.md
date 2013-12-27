@@ -77,6 +77,11 @@ __:target__
 __:action__
 Having these keys is the alternative to using the :controller key. Instead of switching to a new view, when a row with a :controller key is tapped, a row with a target/action key pair just runs the specified method. I thought it may be useful for short *About* popups and such. Tapping one of these rows will not animate shut the sidemenu by default.
 
+__:completion__
+If set, this drawer must have a controller. This key's value (should be a
+symbol) will be sent to the controller when sidemenu animations complete and the
+drawer's view is open.
+
 __:active__
 This should be set to true for just one of the drawers. It specifies which
 drawer's controller's view will be shown first by default, and, if you set an

@@ -56,7 +56,11 @@ module Bureau
         last_frame = current_controller_for(open_drawer).view.frame
         current_controller_for(open_drawer).view.frame = Frame::open(@slide_width, @orientations, last_frame)
         @shadow_view.frame = Frame::open_shadow(@slide_width) if @has_shadow == :yes
-      end, completion: nil)
+      end, completion: lambda do |finished|
+        if open_drawer.has_key?(:completion)
+          current_controller_for(open_drawer).send(open_drawer[:completion])
+        end
+      end)
       @state = :open
     end
 
@@ -65,7 +69,11 @@ module Bureau
         last_frame = current_controller_for(open_drawer).view.frame
         current_controller_for(open_drawer).view.frame = Frame::closed(@orientations, last_frame)
         @shadow_view.frame = Frame::closed_shadow if @has_shadow == :yes
-      end, completion: nil)
+      end, completion: lambda do |finished|
+        if open_drawer.has_key?(:completion)
+          current_controller_for(open_drawer).send(open_drawer[:completion])
+        end
+      end)
       @state = :closed
     end
 

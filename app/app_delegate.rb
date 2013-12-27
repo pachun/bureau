@@ -25,6 +25,7 @@ class AppDelegate
             subtitle: "Hey 2",
             icon: UIImage.imageNamed("martini.png"),
             controller: @y,
+            completion: :whatsup,
           }
         ]
       },
@@ -78,6 +79,10 @@ class GreenVC < UIViewController
     @button.addTarget(self, action: :toggle_menu, forControlEvents:UIControlEventTouchUpInside)
     view.addSubview(@button)
     super
+  end
+
+  def whatsup
+    puts "HELLO WORLD"
   end
 
   def toggle_menu
