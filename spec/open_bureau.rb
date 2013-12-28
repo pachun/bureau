@@ -60,7 +60,7 @@ describe "A Bureau in the Open State" do
     @bureau.structure[0][:drawers][1][:open].should == true
     @bureau.childViewControllers.should.include @x
     @bureau.view.subviews.should.include @x.view
-    @x.view.frame.should == Bureau::Frame::closed
+    @x.view.frame.should == Bureau::Frame::closed(@bureau.orientations, @bureau.open_drawer[:controller].view.frame)
   end
 
   it "executes the action of a target/action drawer when one is tapped" do
