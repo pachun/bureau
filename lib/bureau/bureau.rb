@@ -34,7 +34,8 @@ module Bureau
       setup_table
       add_shadow if @has_shadow == :yes
       setup_controllers
-      open(open_drawer) unless open_drawer.nil?
+      # open(open_drawer) unless open_drawer.nil?
+      orientate unless open_drawer.nil?
     end
 
     private
@@ -77,7 +78,7 @@ module Bureau
     end
 
     def setup_status_bar(bg_color)
-      device_width = UIScreen.mainScreen.bounds.size.width
+      device_width = @slide_width
       dimensions = CGRectMake(0,0,device_width,StatusBarHeight)
       @status_bar_bg = UIView.alloc.initWithFrame(dimensions)
       @status_bar_bg.backgroundColor = bg_color
@@ -99,6 +100,19 @@ module Bureau
           drawer[:controller].bureau = self unless drawer[:controller].class == Class
         end
       end
+    end
+
+    def orientate
+      UIDevice.currentDevice.beginGeneratingDeviceOrientationNotifications
+      NSNotificationCenter.defaultCenter.addObserver(self,
+                                                     selector: :launch_orientation_discovered,
+                                                     name: UIDeviceOrientationDidChangeNotification,
+                                                     object:nil)
+    end
+
+    def launch_orientation_discovered
+      NSNotificationCenter.defaultCenter.removeObserver(self)
+      open(open_drawer)
     end
   end
 end
