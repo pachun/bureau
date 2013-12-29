@@ -1,100 +1,44 @@
+class AppDelegate
+  def application(application, didFinishLaunchingWithOptions:launchOptions)
+    sidemenu = Bureau::Bureau.new(
+      state: :open,
+      has_shadow: :yes,
+      header_height: 44,
+      structure: Structure
+    )
+    @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
+    @window.rootViewController = sidemenu
+    @window.makeKeyAndVisible
+    true
+  end
+end
+
+class WhiteVC < UIViewController
+  def viewWillAppear(animated)
+    super(animated)
+    view.backgroundColor = UIColor.whiteColor
+  end
+end
+
 class UIViewController < UIResponder
+  include Bureau::Controller
   def shouldAutorotate
     true
   end
 end
 
-class AppDelegate
-  def application(application, didFinishLaunchingWithOptions:launchOptions)
-    return true if RUBYMOTION_ENV == 'test'
-
-    @x = BlueVC.new
-    @y = GreenVC.new
-    structure = [
+Structure = [
+  {
+    title: "Hello World",
+    drawers: [
       {
-        # title: "Section 1",
-        drawers: [
-          {
-            title: "Drawer 1-1",
-            subtitle: "Hey 1",
-            accessory: UITableViewCellAccessoryCheckmark,
-            controller: @x,
-          },
-          {
-            title: "Drawer 1-2",
-            subtitle: "Hey 2",
-            icon: UIImage.imageNamed("martini.png"),
-            controller: @y,
-            completion: :whatsup,
-          }
-        ]
+        title: "Devils",
+        controller: UINavigationController.alloc.initWithRootViewController(WhiteVC.new),
       },
       {
-        title: "Section 2",
-        drawers: [
-          {
-            title: "Drawer 2-1",
-            subtitle: "Hey 3",
-            target: self,
-            action: :say_hello,
-          },
-          {
-            title: "Drawer 2-2",
-            subtitle: "Hey 4",
-          }
-        ]
-      },
+        title: "Redwings",
+        controller: UINavigationController.alloc.initWithRootViewController(WhiteVC.new),
+      }
     ]
-
-    bureau = Bureau::Bureau.new(structure:structure,
-                                state: :open,
-                                slide_width: 250,
-                                active_cell_color: UIColor.clearColor,
-                                drawer_separators: :none,
-                                has_shadow: :yes,
-                                slide_duration: 2,
-                                orientations: [1,3,4],
-                               )
-    @window = UIWindow.alloc.initWithFrame UIScreen.mainScreen.bounds
-    @window.rootViewController = bureau
-    @window.makeKeyAndVisible
-
-    true
-  end
-
-  def say_hello
-    UIAlertView.alloc.initWithTitle("Hi", message:'', delegate:self,cancelButtonTitle:"OK",otherButtonTitles:nil).show
-  end
-end
-
-class GreenVC < UIViewController
-  include Bureau::Controller
-
-  def init
-    view.backgroundColor = UIColor.greenColor
-    @button = UIButton.buttonWithType UIButtonTypeRoundedRect
-    @button.setTitle("Tap Me", forState:UIControlStateNormal)
-    @button.backgroundColor = UIColor.redColor
-    @button.frame = CGRectMake(50, 50, 150, 50)
-    @button.addTarget(self, action: :toggle_menu, forControlEvents:UIControlEventTouchUpInside)
-    view.addSubview(@button)
-    super
-  end
-
-  def whatsup
-    puts "HELLO WORLD"
-  end
-
-  def toggle_menu
-    toggle_bureau
-  end
-end
-
-class BlueVC < UIViewController
-  include Bureau::Controller
-
-  def init
-    view.backgroundColor = UIColor.blueColor
-    super
-  end
-end
+  }
+]
