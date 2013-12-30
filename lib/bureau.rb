@@ -3,10 +3,13 @@ unless defined?(Motion::Project::Config)
 end
 
 Motion::Project::App.setup do |app|
-  Dir.glob(File.join(File.dirname(__FILE__), 'bureau/*.rb')).each do |file|
+  files = Dir.glob(File.join(File.dirname(__FILE__), 'bureau/*.rb'))
+  files.each do |file|
     app.files.unshift(file)
   end
+  bureau_dot_rb = files.select{ |f| f.basename == 'bureau.rb' }.first
+  bureau_menu_dot_rb = files.select{ |f| f.basename == 'bureau_menu.rb' }.first
+  app.files_dependencies bureau_dot_rb => bureau_menu_dot_rb
 
-  app.files_dependencies 'lib/bureau/bureau.rb' => 'lib/bureau/bureau_menu.rb'
   app.frameworks += ['QuartzCore']
 end
