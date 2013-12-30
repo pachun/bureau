@@ -7,8 +7,8 @@ Motion::Project::App.setup do |app|
   files.each do |file|
     app.files.unshift(file)
   end
-  bureau_dot_rb = files.select{ |f| f.basename == 'bureau.rb' }.first
-  bureau_menu_dot_rb = files.select{ |f| f.basename == 'bureau_menu.rb' }.first
+  bureau_dot_rb = files.select{ |f| File.basename(f) == 'bureau.rb' }.first
+  bureau_menu_dot_rb = files.select{ |f| File.basename(f) == 'bureau_menu.rb' }.first
   app.files_dependencies bureau_dot_rb => bureau_menu_dot_rb
 
   app.frameworks += ['QuartzCore']
